@@ -74,8 +74,8 @@ struct VirvoVolume::volumeinfo* VirvoVolume::loadXVF(std::string filename)
 
     // create copy of default tranfer function
     volinfo->defaultTransferFunc = new vvTransFunc;
-    vvTransFunc::copy(&volinfo->defaultTransferFunc->_widgets,  &volinfo->desc->tf._widgets);
-    volinfo->defaultTransferFunc->setDiscreteColors(volinfo->desc->tf.getDiscreteColors());
+    vvTransFunc::copy(&volinfo->defaultTransferFunc->_widgets,  &volinfo->desc->tf[0]._widgets);
+    volinfo->defaultTransferFunc->setDiscreteColors(volinfo->desc->tf[0].getDiscreteColors());
    
     return volinfo;
 }
@@ -101,16 +101,22 @@ bool VirvoVolume::loadFile(std::string filename)
     SceneObject* so = new SceneObject(info->name, false, false, false, true, true);
 	so->addChild(info->volume);
     so->setBoundsCalcMode(SceneObject::MANUAL);
-    so->setBoundingBox(info->drawable->getBound());
+#if OSG_VERSION_GREATER_OR_EQUAL(3, 3, 2)
+    osg::BoundingBox bb;
+    bb.expandBy(info->drawable->getBound());
+#else
+    osg::BoundingBox bb = drawable->getBound();
+#endif
+    so->setBoundingBox(bb);
     PluginHelper::registerSceneObject(so,"VirvoVolume");
 
     double xMin, xMax, yMin, yMax, zMin, zMax;
-    xMin = info->drawable->getBound().xMin();
-    xMax = info->drawable->getBound().xMax();
-    yMin = info->drawable->getBound().yMin();
-    yMax = info->drawable->getBound().yMax();
-    zMin = info->drawable->getBound().zMin();
-    zMax = info->drawable->getBound().zMax();
+    xMin = bb.xMin();
+    xMax = bb.xMax();
+    yMin = bb.yMin();
+    yMax = bb.yMax();
+    zMin = bb.zMin();
+    zMax = bb.zMax();
 
     // create volume clipping plane
     info->clippingPlane = new SceneObject("ClippingPlane", false, true, false, false, true);
