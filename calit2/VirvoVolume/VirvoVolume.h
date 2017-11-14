@@ -22,12 +22,11 @@
 #include <vector>
 #include <queue>
 
+#include <virvo/osg/VolumeDrawable.h>
 #include <virvo/vvfileio.h>
 #include <virvo/vvvoldesc.h>
 #include <virvo/vvtransfunc.h>
 #include <virvo/vvtfwidget.h>
-
-#include "VirvoDrawable.h"
 
 class VirvoVolume : public cvr::CVRPlugin, public cvr::MenuCallback ,public cvr::FileLoadCallback
 {
@@ -56,7 +55,7 @@ class VirvoVolume : public cvr::CVRPlugin, public cvr::MenuCallback ,public cvr:
             vvTransFunc* defaultTransferFunc;
             vvVolDesc* desc;
 			osg::Geode* volume;
-			VirvoDrawable* drawable;
+			virvo::VolumeDrawable* drawable;
         }; 
             
         VirvoVolume();

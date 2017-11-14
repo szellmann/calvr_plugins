@@ -31,8 +31,6 @@
 #include <osgDB/FileUtils>
 #include <osgDB/FileNameUtils>
 
-#include "VirvoDrawable.h"
-
 #include <string.h>
 #include <fstream>
 
@@ -91,7 +89,7 @@ bool VirvoVolume::loadFile(std::string filename)
 		return false;
 
 	info->volume = new osg::Geode();
-	info->drawable = new VirvoDrawable();
+	info->drawable = new virvo::VolumeDrawable();
 	info->drawable->enableFlatDisplay(false);
    	info->drawable->setROIPosition(osg::Vec3(0.,0.,0.));
 	info->drawable->setVolumeDescription( info->desc );
@@ -296,7 +294,7 @@ void VirvoVolume::menuCallback(MenuItem* menuItem)
                 adjustTransferFunction(transfunc, _transferPositionMap[it->first]->getValue(), _transferBaseWidthMap[it->first]->getValue() ); 
                 
                 // set the new function
-                info->drawable->setTransferFunction( &transfunc );
+                info->drawable->setTransferFunction( transfunc );
 
                 // disable other buttons
                 cvr::MenuCheckbox* mcb = _transferBrightMap[it->first];
@@ -330,7 +328,7 @@ void VirvoVolume::menuCallback(MenuItem* menuItem)
                 adjustTransferFunction(transfunc, 2, _transferPositionMap[it->first]->getValue(), _transferBaseWidthMap[it->first]->getValue() );
 
                 // set the new function
-                info->drawable->setTransferFunction( &transfunc );
+                info->drawable->setTransferFunction( transfunc );
                                                                
                 // disable other buttons
                 cvr::MenuCheckbox* mcb = _transferBrightMap[it->first];
@@ -363,7 +361,7 @@ void VirvoVolume::menuCallback(MenuItem* menuItem)
                 adjustTransferFunction(transfunc, 0, _transferPositionMap[it->first]->getValue(), _transferBaseWidthMap[it->first]->getValue() );
 
                 // set the new function
-                info->drawable->setTransferFunction( &transfunc );
+                info->drawable->setTransferFunction( transfunc );
 
                 // disable other buttons
                 cvr::MenuCheckbox* mcb = _transferGrayMap[it->first];
@@ -396,7 +394,7 @@ void VirvoVolume::menuCallback(MenuItem* menuItem)
                 adjustTransferFunction(transfunc, 1, _transferPositionMap[it->first]->getValue(), _transferBaseWidthMap[it->first]->getValue() );
 
                 // set the new function
-                info->drawable->setTransferFunction( &transfunc );
+                info->drawable->setTransferFunction( transfunc );
 
                 // disable other buttons
                 cvr::MenuCheckbox* mcb = _transferGrayMap[it->first];
@@ -446,7 +444,7 @@ void VirvoVolume::menuCallback(MenuItem* menuItem)
            }
 
            // set the new function
-           info->drawable->setTransferFunction( &transfunc );
+           info->drawable->setTransferFunction( transfunc );
         }
     }
 
@@ -485,7 +483,7 @@ void VirvoVolume::menuCallback(MenuItem* menuItem)
 		   }
 
            // set the new function
-           info->drawable->setTransferFunction( &transfunc );
+           info->drawable->setTransferFunction( transfunc );
         }
     }
 
